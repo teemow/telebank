@@ -1,0 +1,14 @@
+{
+  "network": {
+    "servers": [ "elk:5043" ],
+    "ssl certificate": "/etc/ssl/logstash-forwarder.crt",
+    "ssl key": "/etc/ssl/logstash-forwarder.key",
+    "ssl ca": "/etc/ssl/logstash-forwarder.crt"
+  },
+  "files": [
+    {
+      "paths":  [ "/log/*.csv" ],
+      "fields": { "type": "telebank" }
+    }
+  ]
+}

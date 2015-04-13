@@ -1,0 +1,24 @@
+elk:
+  image: willdurand/elk
+  ports:
+    - "8080:80"
+    - "5043:5043"
+  volumes:
+    - /var/lib/telebank/data:/data
+    - config/ssl/:/etc/ssl
+    - config/logstash:/etc/logstash
+forwarder:
+  image: willdurand/logstash-forwarder
+  links:
+    - elk:elk
+  volumes:
+    - /var/lib/telebank/log:/log
+    - config/ssl/:/etc/ssl
+    - config/logstash-forwarder:/etc/logstash-forwarder
+telebank: 
+  image: teemow/telebank
+  command: transactions --export=csv
+  volumes:
+    - /var/lib/telebank/log:/log
+    - /home/teemow:/home/teemow
+    - /home/teemow/.aqbanking/pins.json:/app/pins.json
